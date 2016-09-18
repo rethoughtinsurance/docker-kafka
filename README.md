@@ -28,9 +28,9 @@ Run with Docker Compose:
 
 Setting the project name to *docker* with the **-p** option is useful to share the named data volumes created by containers started with other docker-compose.yml configurations of mine.
 
-Once started you'll be able to read the Yahoo Kafka Manager url for your environment (plase note that the ip is non static!):
+Once started you'll be able to read the Yahoo Kafka Manager url:
 
-**Yahoo Kafka Manager url**:	http://172.17.0.3:8081
+**Yahoo Kafka Manager url**:	http://localhost:8081
 
 ### Available tags:
 
