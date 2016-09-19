@@ -10,12 +10,14 @@ ENV GRADLE_VER 2.13
 
 ARG httpProxyHost
 ARG httpProxyPort
+ARG httpProxyUrl
+ARG httpsProxyUrl
 
-ENV http_proxy ${http_proxy}
-ENV https_proxy ${https_proxy}
-ENV no_proxy ${no_proxy}
-ENV httpProxyHost ${httpProxyHost}
-ENV httpProxyPort ${httpProxyPort}
+ENV http_proxy $httpProxyUrl
+ENV https_proxy $httpsProxyUrl
+ENV no_proxy $no_proxy
+ENV httpProxyHost $httpProxyHost
+ENV httpProxyPort $httpProxyPort
 
 ENV KAFKA_HOME /opt/kafka
 ENV KAFKA_MANAGER_HOME /opt/kafka-manager
