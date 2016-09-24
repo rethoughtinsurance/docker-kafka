@@ -4,7 +4,7 @@ MAINTAINER Matteo Capitanio <matteo.capitanio@gmail.com>
 
 USER root
 
-ENV KAFKA_VER 0.10.0.1
+ENV CONFLUENTIC_KAFKA_VER 3.0.1
 ENV KAFKA_MANAGER_VER 1.3.1.6
 ENV GRADLE_VER 2.13
 
@@ -18,6 +18,7 @@ ENV https_proxy $httpsProxyUrl
 ENV no_proxy $no_proxy
 ENV httpProxyHost $httpProxyHost
 ENV httpProxyPort $httpProxyPort
+ENV JAVA_OPTS="-Dhttp.proxyHost=$httpProxyHost -Dhttp.proxyPort=$httpProxyPort -Dhttps.proxyHost=$httpProxyHost -Dhttps.proxyPort=$httpProxyPort"
 
 ENV KAFKA_HOME /opt/kafka
 ENV KAFKA_MANAGER_HOME /opt/kafka-manager
@@ -52,15 +53,14 @@ RUN unzip gradle-$GRADLE_VER-all.zip
 RUN mv gradle-$GRADLE_VER $GRADLE_HOME
 
 # Apache Kafka
-RUN git clone -b $KAFKA_VER https://github.com/apache/kafka.git
-ENV JAVA_OPTS="-Dhttp.proxyHost=$httpProxyHost -Dhttp.proxyPort=$httpProxyPort -Dhttps.proxyHost=$httpProxyHost -Dhttps.proxyPort=$httpProxyPort"
+RUN git clone -b v$CONFLUENTIC_KAFKA_VER https://github.com/confluentinc/kafka.git
 RUN cd kafka; \
     gradle
 RUN cd kafka; \
     ./gradlew clean; \
     ./gradlew releaseTarGz
 RUN mv kafka $KAFKA_HOME
-RUN mkdir $KAFKA_HOME/logs
+RUN mkdir -p $KAFKA_HOME/logs
 
 # Kafka Manager
 RUN git clone -b $KAFKA_MANAGER_VER https://github.com/yahoo/kafka-manager.git

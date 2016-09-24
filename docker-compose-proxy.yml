@@ -16,7 +16,6 @@ services:
                httpsProxyUrl: http://10.0.2.2:3128
                httpProxyHost: 10.0.2.2
                httpProxyPort: 3128
-               no_proxy: localhost,zookeeper
         image: mcapitanio/kafka:latest
         networks:
             - hadoop
