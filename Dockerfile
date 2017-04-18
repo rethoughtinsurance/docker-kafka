@@ -1,83 +1,55 @@
 FROM mcapitanio/centos-java
 
-MAINTAINER Matteo Capitanio <matteo.capitanio@gmail.com>
+MAINTAINER Matteo Capitanio <matteo.capitanio@gmail.it>
 
 USER root
 
-ENV CONFLUENTIC_KAFKA_VER 3.0.1
-ENV KAFKA_MANAGER_VER 1.3.1.6
-ENV GRADLE_VER 2.13
+ENV CONFLUENT_PLATFORM_VER 3.2
+ENV KAFKA_TOPICS_UI_VER 0.8.3
 
-ARG httpProxyHost
-ARG httpProxyPort
-ARG httpProxyUrl
-ARG httpsProxyUrl
-
-ENV http_proxy $httpProxyUrl
-ENV https_proxy $httpsProxyUrl
-ENV no_proxy $no_proxy
-ENV httpProxyHost $httpProxyHost
-ENV httpProxyPort $httpProxyPort
-ENV JAVA_OPTS="-Dhttp.proxyHost=$httpProxyHost -Dhttp.proxyPort=$httpProxyPort -Dhttps.proxyHost=$httpProxyHost -Dhttps.proxyPort=$httpProxyPort"
-
-ENV KAFKA_HOME /opt/kafka
-ENV KAFKA_MANAGER_HOME /opt/kafka-manager
-ENV GRADLE_HOME /opt/gradle
-
-ENV PATH $GRADLE_HOME/bin:$KAFKA_HOME/bin:$KAFKA_MANAGER_HOME/bin:$PATH
+# Install Confluent Repo
+RUN rpm --import http://packages.confluent.io/rpm/${CONFLUENT_PLATFORM_VER}/archive.key
+COPY confluent.repo /etc/yum.repos.d/
 
 # Install needed packages
-RUN curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+RUN yum install -y deltarpm
 RUN yum clean all; yum update -y
 RUN yum install -y git \
-    maven \
     python-pip \
     python-setuptools \
     wget \
-    unzip \
-    sbt
+    unzip
 RUN easy_install supervisor
 RUN yum clean all
 
 WORKDIR /opt/docker
 
-RUN mkdir /root/.m2
-COPY settings.xml ./
-COPY set-maven-proxy.sh ./
-RUN chmod +x set-maven-proxy.sh
-RUN ./set-maven-proxy.sh
+# All Kafka Stuff
+RUN yum install -y confluent-kafka-2.11
+RUN yum install -y confluent-kafka-rest
+RUN yum install -y confluent-schema-registry
 
-# Install Gradle
-RUN wget -N https://services.gradle.org/distributions/gradle-$GRADLE_VER-all.zip
-RUN unzip gradle-$GRADLE_VER-all.zip
-RUN mv gradle-$GRADLE_VER $GRADLE_HOME
+# Kafka Topics UI
+RUN wget "https://caddyserver.com/download/build?os=linux&arch=amd64&features=" -O caddy.tgz; \
+    mkdir /opt/caddy; \
+    tar xzf caddy.tgz -C /opt/caddy; \
+    rm -f caddy.tgz
 
-# Apache Kafka
-RUN git clone -b v$CONFLUENTIC_KAFKA_VER https://github.com/confluentinc/kafka.git
-RUN cd kafka; \
-    gradle
-RUN cd kafka; \
-    ./gradlew clean; \
-    ./gradlew releaseTarGz
-RUN mv kafka $KAFKA_HOME
-RUN mkdir -p $KAFKA_HOME/logs
+# Add and Setup Kafka-Topics-Ui
+RUN wget https://github.com/Landoop/kafka-topics-ui/releases/download/v${KAFKA_TOPICS_UI_VER}/kafka-topics-ui-${KAFKA_TOPICS_UI_VER}.tar.gz -O kafka-topics-ui.tar.gz; \
+    mkdir /opt/kafka-topics-ui; \
+    tar xzf kafka-topics-ui.tar.gz -C /opt/kafka-topics-ui; \
+    rm -f kafka-topics-ui.tar.gz
 
-# Kafka Manager
-RUN git clone -b $KAFKA_MANAGER_VER https://github.com/yahoo/kafka-manager.git
-RUN cd kafka-manager; \
-    sbt clean dist
-RUN unzip kafka-manager/target/universal/kafka-manager-$KAFKA_MANAGER_VER.zip -d /opt
-RUN mv /opt/kafka-manager-$KAFKA_MANAGER_VER $KAFKA_MANAGER_HOME
-RUN mkdir $KAFKA_MANAGER_HOME/logs
-
-COPY kafka $KAFKA_HOME
-RUN chmod +x $KAFKA_HOME/bin/supervisord-bootstrap.sh
-COPY kafka-manager $KAFKA_MANAGER_HOME
+COPY *.sh ./
+ADD kafka-topics-ui/Caddyfile /opt/caddy/
+ADD kafka-topics-ui/run.sh /opt/kafka-topics-ui/
+RUN chmod +x supervisord-bootstrap.sh
 
 COPY etc/ /etc/
 
-EXPOSE 9092 9000
+EXPOSE 9092 8081 8082 
 
-VOLUME [ "/opt/kafka/config", "/opt/kafka/logs", "/opt/kafka-manager/conf", "/opt/kafka-manager/logs" ]
+VOLUME [ "/etc/kafka", "/var/log/kafka", "/etc/kafka-rest", "/etc/schema-registry" ]
 
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisord.conf", "-n"]
