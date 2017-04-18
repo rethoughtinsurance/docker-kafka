@@ -11,7 +11,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: mcapitanio/kafka:latest
+        image: mcapitanio/kafka:0.10.2.0
         networks:
             - hadoop
         links:
