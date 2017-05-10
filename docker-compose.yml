@@ -23,10 +23,9 @@ services:
             - schema_registry_conf:/etc/schema-registry
         ports:
             - "9092:9092"
-            - "9093:9093"
-            - "9000:9000"
             - "8081:8081"
             - "8082:8082"
+            - "8083:8083"
             - "8000:8000"
 
 volumes:
