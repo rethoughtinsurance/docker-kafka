@@ -48,7 +48,7 @@ RUN chmod +x supervisord-bootstrap.sh
 
 COPY etc/ /etc/
 
-EXPOSE 9092 8081 8082 
+EXPOSE 9092 8081 8082 8083
 
 VOLUME [ "/etc/kafka", "/var/log/kafka", "/etc/kafka-rest", "/etc/schema-registry" ]
 
