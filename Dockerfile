@@ -30,7 +30,7 @@ RUN yum install -y confluent-kafka-rest
 RUN yum install -y confluent-schema-registry
 
 # Kafka Topics UI
-RUN wget "https://caddyserver.com/download/build?os=linux&arch=amd64&features=" -O caddy.tgz; \
+RUN wget "https://caddyserver.com/download/linux/amd64" -O caddy.tgz; \
     mkdir /opt/caddy; \
     tar xzf caddy.tgz -C /opt/caddy; \
     rm -f caddy.tgz
