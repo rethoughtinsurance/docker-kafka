@@ -1,5 +1,0 @@
-0.0.0.0:8000
-tls off
-
-root /opt/kafka-topics-ui
-log /opt/kafka-topics-ui/access.log
