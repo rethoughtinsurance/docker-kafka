@@ -15,7 +15,7 @@ COPY confluent.repo /etc/yum.repos.d/
 
 # Install needed packages
 RUN yum update -y
-RUN yum install -y git python-pip python-setuptools java-1.8.0-openjdk
+RUN yum install -y git python-pip python-setuptools
 RUN easy_install supervisor
 RUN yum clean all
 
