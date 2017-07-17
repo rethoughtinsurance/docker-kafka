@@ -33,7 +33,7 @@ COPY etc/ /etc/
 EXPOSE 9092 8082
 
 RUN useradd -d /usr/kafka kafka; \
-    chown kafka:kafka /usr/kafka; \
+    chown kafka:kafka /usr/kafka
 
 USER kafka
 
