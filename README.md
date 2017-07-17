@@ -15,17 +15,17 @@ The *latest* tag of this image is build with the [latest stable](https://github.
 
 You can pull it with:
 
-    docker pull parrotcdc/kafka
+    docker pull parrot-stream/kafka
 
 
 You can also find other images based on different Apache Kafka releases, using a different tag in the following form:
 
-    docker pull parrotcdc/kafka:[kafka-release]
+    docker pull parrot-stream/kafka:[kafka-release]
 
 
 For example, if you want the release 0.10.0.1 you can pull the image with:
 
-    docker pull parrotcdc/kafka:0.10.0.1
+    docker pull parrot-stream/kafka:0.10.0.1
 
 Run with Docker Compose:
 
@@ -33,5 +33,5 @@ Run with Docker Compose:
 
 ### Available tags:
 
-- Apache Kafka 0.10.2.0 ([0.10.2.0](https://github.com/parrotcdc/docker-kafka/blob/0.10.2.0/Dockerfile), [latest](https://github.com/parrotcdc/docker-kafka/blob/latest/Dockerfile))
-- Apache Kafka 0.10.0.1 ([0.10.0.1](https://github.com/parrotcdc/docker-kafka/blob/0.10.0.1/Dockerfile))
+- Apache Kafka 0.10.2.0 ([0.10.2.0](https://github.com/parrot-stream/docker-kafka/blob/0.10.2.0/Dockerfile), [latest](https://github.com/parrot-stream/docker-kafka/blob/latest/Dockerfile))
+- Apache Kafka 0.10.0.1 ([0.10.0.1](https://github.com/parrot-stream/docker-kafka/blob/0.10.0.1/Dockerfile))
