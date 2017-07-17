@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: parrot-stream/kafka:0.10.0.1
+    image: parrotstream/kafka:0.10.0.1
     networks:
     - parrot
     external_links:
