@@ -29,7 +29,9 @@ For example, if you want the release 0.10.0.1 you can pull the image with:
 
 Run with Docker Compose:
 
-    docker-compose up
+    docker-compose -p parrot up
+
+Setting the project name to *parrot* with the **-p** option is useful to share the network created by containers started with other Parrot docker-compose.yml configurations.
 
 ### Available tags:
 
