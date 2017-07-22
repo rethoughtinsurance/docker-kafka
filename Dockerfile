@@ -1,6 +1,6 @@
 FROM parrotstream/centos-openjdk
 
-MAINTAINER Matteo Capitanio <matteo.capitanio@gmail.it>
+MAINTAINER Matteo Capitanio <matteo.capitanio@gmail.com>
 
 USER root
 
