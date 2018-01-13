@@ -19,6 +19,7 @@ services:
     - KAFKA_REST_PROXY_URL=http://localhost:8082
     - PROXY=true
     - PROXY_SKIP_VERIFY=true
+    - JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk
 networks:
   default:
     external:

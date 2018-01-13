@@ -1,6 +1,7 @@
 FROM parrotstream/centos-openjdk
 
-MAINTAINER Matteo Capitanio <matteo.capitanio@gmail.com>
+LABEL maintainer="cory.isaacson@rethoughtinsurance.com"
+LABEL credit-to="Matteo Capitanio <matteo.capitanio@gmail.com>"
 
 USER root
 
