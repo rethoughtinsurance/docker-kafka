@@ -1,7 +1,7 @@
 #!/bin/bash
 
 : ${LISTENERS:=PLAINTEXT://0.0.0.0:9092}
-: ${ADVERTISED_LISTENERS:=PLAINTEXT://kafka:9092}
+: ${ADVERTISED_LISTENERS:=PLAINTEXT://localhost:9092}
 : ${ZOOKEEPER_CONNECT:=zookeeper:2181}
 
 sed -i -r "s@(^|^#)(listeners)=(.*)@\2=${LISTENERS}@g" /etc/kafka/server.properties

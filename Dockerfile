@@ -1,12 +1,12 @@
-FROM parrotstream/centos-openjdk
+FROM parrotstream/centos-openjdk:8
 
 LABEL maintainer="cory.isaacson@rethoughtinsurance.com"
 LABEL credit-to="Matteo Capitanio <matteo.capitanio@gmail.com>"
 
 USER root
 
-ENV CONFLUENT_PLATFORM_MAJOR_VER 3.2
-ENV CONFLUENT_PLATFORM_MINOR_VER 0
+ENV CONFLUENT_PLATFORM_MAJOR_VER 4.1
+ENV CONFLUENT_PLATFORM_MINOR_VER 1
 ENV CONFLUENT_PLATFORM_VER $CONFLUENT_PLATFORM_MAJOR_VER.$CONFLUENT_PLATFORM_MINOR_VER
 ENV SCALA_VER 2.11
 
